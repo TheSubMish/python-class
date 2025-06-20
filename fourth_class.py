@@ -11,3 +11,4 @@ def random_func():
     print(f"Random number generated: {num}")
 
 
+# made changes to test pull request
