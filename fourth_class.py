@@ -1,4 +1,10 @@
 print("All Good")
+
+def add(a,b):
+    print(a+b)
+
+add(10,20)
+
 print("sadasdas")
 def random_func():
     import random
