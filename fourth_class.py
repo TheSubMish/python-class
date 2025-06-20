@@ -5,6 +5,7 @@ def add(a,b):
 
 add(10,20)
 
+print("sadasdas")
 def random_func():
     import random
     num = random.randint(1, 100)
