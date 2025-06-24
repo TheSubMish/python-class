@@ -204,49 +204,141 @@ user_info = {
 # ask user for two numbers and ask for what calculation to perform, create functions for addition, subtraction, multiplication, and division using match case return the result of the calculation
 
 
-a = int(input("Enter first number: "))
-b = int(input("Enter second number: "))
+# a = int(input("Enter first number: "))
+# b = int(input("Enter second number: "))
 
 
-def add(x, y):
-    """Function to add two numbers."""
-    return x + y
+# def add(x, y):
+#     """Function to add two numbers."""
+#     return x + y
 
 
-def subtract(x, y):
-    """Function to subtract two numbers."""
-    return x - y
+# def subtract(x, y):
+#     """Function to subtract two numbers."""
+#     return x - y
 
 
-def multiply(x, y):
-    """Function to multiply two numbers."""
-    return x * y
+# def multiply(x, y):
+#     """Function to multiply two numbers."""
+#     return x * y
 
 
-def divide(x, y):
-    """Function to divide two numbers."""
-    if y == 0:
-        return "Error: Division by zero"
-    return x / y
+# def divide(x, y):
+#     """Function to divide two numbers."""
+#     if y == 0:
+#         return "Error: Division by zero"
+#     return x / y
 
 
-while True:
-    match input("Enter operation (add, subtract, multiply, divide): ").strip().lower():
-        case "add":
-            result = add(a, b)
-        case "subtract":
-            result = subtract(a, b)
-        case "multiply":
-            result = multiply(a, b)
-        case "divide":
-            result = divide(a, b)
-        case "exit":
-            print("Exiting the calculator.")
-            break
-        case _:
-            result = "Invalid operation"
-            break
+# while True:
+#     match input("Enter operation (add, subtract, multiply, divide): ").strip().lower():
+#         case "add":
+#             result = add(a, b)
+#         case "subtract":
+#             result = subtract(a, b)
+#         case "multiply":
+#             result = multiply(a, b)
+#         case "divide":
+#             result = divide(a, b)
+#         case "exit":
+#             print("Exiting the calculator.")
+#             break
+#         case _:
+#             result = "Invalid operation"
+#             break
 
-print(f"Result of the operation: {result}")
+# print(f"Result of the operation: {result}")
 # result = add(a, b)
 # print(f"Result of addition: {result}")
+
+
+# def hello_func(name):
+#     # single line comment
+#     """
+#     Function to print a hello message.
+#     """
+#     print(f"Hello, {name}")
+
+#     return "Hello from hello_func!"
+
+
+# txt = hello_func("python")
+
+# print(txt)
+
+# list_parameter = [1, 2, 3, 4, 5]
+
+
+# # args
+
+
+def print_list(*args):
+    """
+    Function to print a list of arguments.
+    """
+    print("Arguments received:", args)
+    for item in args:
+        print(item)
+
+
+# # Calling the function with a list
+# print_list(1, 2, 3, 4, 5)
+
+# print_list(*list_parameter)
+
+
+# # kwargs
+
+
+def print_dict(**kwargs):
+    """
+    Function to print a dictionary of keyword arguments.
+    """
+    print("Keyword arguments received:", kwargs)
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+
+# Calling the function with a dictionary
+
+dict_data = {
+    "name": "Python",
+    "age": 30,
+    "city": "New York",
+    "hobbies": ["reading", "gaming", "coding"],
+}
+
+# print_dict(
+#     name="Alice", age=30, city="New York", hobbies=["reading", "gaming", "coding"]
+# )
+
+# print_dict(**dict_data)
+
+
+
+import random
+
+def generate_random_number(start, end):
+    """
+    Function to generate a random number between start and end.
+    """
+    return random.randint(start, end)
+
+
+# start = int(input("Enter the start of the range: "))
+# end = int(input("Enter the end of the range: "))
+
+# random_number = generate_random_number(start, end)
+# print(f"Random number generated between {start} and {end}: {random_number}")
+
+
+# from django.utils import timezone
+
+# def get_current_datetime():
+#     """
+#     Function to get the current date and time.
+#     """
+#     return timezone.now()
+
+# current_datetime = get_current_datetime()
+# print("Current date and time:", current_datetime)
