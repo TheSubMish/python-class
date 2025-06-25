@@ -8,7 +8,6 @@ def view():
 
 while True:
     operation = int(input("\nOPTOINS:\n1.ADD TASK\n2.VIEW TASKS\n3.DELETE TASK\n4.EXIT\n\tCHOOSE:"))
-
     match operation:
         case 1:
             taskName = input("Enter a task:") 
