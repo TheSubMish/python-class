@@ -1,95 +1,114 @@
+def add(addTime):
+    taskName = input("Enter task: ")
+    if taskName:
+        todo_dict[addTime].append(taskName)
+    else:
+        print("Empty task not added.")
 
-def task():
-    taskName = input("TASK NAME: ")
-    return taskName
+def view():
+    for x in todo_dict.keys():
+        new = todo_dict[x]
+        print("\n" + x + " Tasks:")
+        for y in range(len(new)):
+            print(f"\tTask {y+1} - {new[y]}")
 
-def morningTask():
-    print("MORNIG TASKS:")
-    global morning
-    morning = todo_dict["morning"]
-    for x in range(len(morning)):
-        print(f"\tTask {x+1} - {morning[x]}")
+def viewSpecific(x): 
+    new = todo_dict[x]  
+    print("\n" + x + " Tasks:")
+    for y in range(len(new)):
+        print(f"\tTask {y+1} - {new[y]}")
 
-def eveningTask():
-    print("EVENING TASKS:")
-    global evening
-    evening = todo_dict["evening"]
-    for x in range(len(evening)):
-        print(f"\tTask {x+1} - {evening[x]}")
+def edit(men):
+    editTaskNo = int(input("edit task: "))
+    assign = todo_dict[men]
+    newTask = input("New task: ")
+    if newTask:
+        assign[editTaskNo-1] = newTask
+    else:
+        print("Empty task not updated")
 
-def nighttask():
-    print("NIGHT TASKS:")
-    global night
-    night = todo_dict["night"]
-    for x in range(len(night)):
-        print(f"\tTask {x+1} - {night[x]}")
-
-
-def delTask():
-    return int(input("DELETE TASK: "))
+def delTask(delTime):
+    delTaskNo = int(input("\ndelete task: "))
+    assign = todo_dict[delTime]
+    assign.pop(delTaskNo-1)
 
 def invalid():
-    print("Invalid Input\n")
+    print("\ninvalid")
 
 todo_dict = {
-    "morning":[],
-    "evening":[],
-    "night":[]
+    "Morning": [],
+    "Afternoon": [],
+    "Evening": [],
 }
 
 while True:
-    operation = int(input("1.ADD TASK\n2.VIEW TASKS\n3.DELETE TASK\n4.EXIT\n\tCHOOSE:"))
+    try:
+        opt = int(input("\n*TO-DO-LIST-MENU*\n1.add\n2.view\n3.edit\n4.delete\n5.exit\n\tChoose:"))
+        match opt:
+            case 1:
+                while True:
+                    try:
+                        opt1 = int(input("\n*ADD TASK IN*\n1.Morning\n2.Afternoon\n3.Evening\n\tChoose:"))
+                        match opt1:
+                            case 1:
+                                add("Morning")
+                                break
+                            case 2:
+                                add("Afternoon")
+                                break
+                            case 3:
+                                add("Evening")
+                                break
+                            case _:
+                                invalid()
+                    except ValueError:
+                        invalid()
 
-    match operation:
-        case 1:
-            time = int(input("ADD TASK FOR:\n1.MORNING\n2.EVENING\n3.NIGHT\n\tCHOOSE: "))
-            match time:
-                case 1:
-                    todo_dict["morning"].append(task())
-                case 2:
-                    todo_dict["evening"].append(task())
-                case 3:
-                    todo_dict["night"].append(task())
-                case _:
+            case 2:
+                view()
+
+            case 3:
+                try:
+                    editTime = int(input("\n*VIEW*\n1.Morning Tasks\n2.Afternoon Tasks\n3.Evening Tasks\n\tChoose: "))
+                    match editTime:
+                        case 1:
+                            viewSpecific("Morning")
+                            edit("Morning")
+                        case 2:
+                            viewSpecific("Afternoon")
+                            edit("Afternoon")
+                        case 3:
+                            viewSpecific("Evening")
+                            edit("Evening")
+                        case _:
+                            invalid()
+                except ValueError:
                     invalid()
 
-        case 2:
-            viewTask = int(input("VIEW TASKS FOR\n1.MORNINIG\n2.EVENING\n3.NIGHT\n4.ALL\n\tCHOOSE:"))
-
-            match viewTask:
-                case 1:
-                    morningTask()
-                case 2:
-                    eveningTask()
-                case 3:
-                    nighttask()
-                case 4:
-                    morningTask()
-                    eveningTask()
-                    nighttask()
-                case _:
-                    invalid()
-                    
-        case 3:
-            i = int(input("DELETE TASK FOR:\n1.MORNINIG\n2.EVENING\n3.NIGHT\n\tCHOOSE: "))
-            
-            match i:
-                case 1:
-                    morningTask()
-                    morning.pop(delTask()-1)
-                case 2:
-                    eveningTask()
-                    evening.pop(delTask()-1)
-                case 3:
-                    nighttask()
-                    night.pop(delTask()-1)
-                case _:
+            case 4:
+                try:
+                    optDel = int(input("\nDelete from:\n1.Morning\n2.Afternoon\n3.Evening\n\tChoose:"))
+                    match optDel:
+                        case 1:
+                            viewSpecific("Morning")
+                            delTask("Morning")
+                        case 2:
+                            viewSpecific("Afternoon")
+                            delTask("Afternoon")
+                        case 3:
+                            viewSpecific("Evening")
+                            delTask("Evening")
+                        case _:
+                            invalid()
+                except ValueError:
                     invalid()
 
-            
-        case 4:
-            print("EXITING")
-            break
+            case 5:
+                print("Exit")
+                break
 
-        case _:
-            invalid()
+            case _:
+                invalid()
+
+    except ValueError:
+        invalid()
