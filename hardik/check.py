@@ -14,10 +14,6 @@ class person:
             print("*no submitted task*")
 
 class student(person):
-    def __init__(self, name,role):
-        self.studentList = []
-        super().__init__(name,role)
-
     def submitTask(self, taskName):
         self.taskName.append(taskName)
 
@@ -29,9 +25,6 @@ class student(person):
             print("*no remarks yet*")
 
 class teacher(person):
-    def __init__(self,name,role):
-        self.teacher = []
-        super().__init__(name,role)
 
     def addStudent(self):
         role = "student"
