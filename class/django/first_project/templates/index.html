@@ -6,6 +6,46 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>
+        {% if name %}
+            Hello, {{ name }}!
+        {% else %}
+            Hello, Guest!
+        {% endif %}
+
+        {% if age %}
+            You are {{ age }} years old.
+        {% else %}
+            Age not provided.
+        {% endif %}
+
+        {% if email %}
+            Your email is {{ email }}.
+        {% else %}
+            Email not provided.
+        {% endif %}
+
+        {% if address %}
+            Your address is {{ address }}.
+        {% else %}
+            Address not provided.
+        {% endif %}
+
+        {{ message }}
+
+        {{ result }}
+
+        {{ current_time }}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <input type="text" name="name" id="person_name">
+            <input type="number" name="age" id="person_age">
+            <input type="email" name="email" id="person_email">
+            <input type="text" name="address" id="person_address">
+            <input type="submit" value="Submit">
+        </form>
+    </h1>
 </body>
 </html>
