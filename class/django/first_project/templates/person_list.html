@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if not persons %}
+    <h1>No persons found.</h1>
+    {% else %}
+    <h1>Person List</h1>
+    <ul>
+      {% for person in persons %}
+      <li>
+        Name: {{ person.name }}, Age: {{ person.age }}, Email: {{ person.email }}, Address: {{ person.address }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

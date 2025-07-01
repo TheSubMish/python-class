@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Person
 
@@ -15,41 +15,43 @@ def create_person(name, age, email, address=None):
 
     print(f"New person created with name: {person.name}")
 
+
 def home_page(request):
-    
+
     if request.method == "POST":
         print("Received a POST request")
-        
+
         print("Request data:", request.POST)
-        
+
         name = request.POST.get("name", "Default Name")
         age = request.POST.get("age", "Default Age")
         email = request.POST.get("email", "Default Email")
         address = request.POST.get("address", "Default Address")
-        
+
         print(f"Name: {name}, Age: {age}, Email: {email}, Address: {address}")
+
+        create_person(name, age, email, address)
+
+        # return render(
+        #     request,
+        #     template_name="index.html",
+        #     context={
+        #         "message": "This is the index page of the second project.",
+        #         "name": name,
+        #         "age": age,
+        #         "email": email,
+        #         "address": address,
+        #         "current_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        #     },
+        # )
         
-        create_person(name,age,email,address)
-        
-        return render(
-            request,
-            template_name="index.html",
-            context={
-                "message": "This is the index page of the second project.",
-                "name": name,
-                "age": age,
-                "email": email,
-                "address": address,
-                "current_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            }
-        )
-    
+        return redirect("person_list")
+
     print("Request method:", request.method)  # Print the request method for debugging
     # request.method = "GET"
 
     result = 10 + 30  # Example operation
     print(f"Result of the operation: {result}")  # Print to console for debugging
-
 
     # return HttpResponse(
     #     f"Hello, world! This is the home page of my Django app.{result}"
@@ -62,5 +64,17 @@ def home_page(request):
             "message": "This is the index page of the second project.",
             "result": result,
             "current_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        }
+        },
+    )
+
+
+def person_list(request):
+    # Fetch all Person objects from the database
+    persons = Person.objects.all()
+
+    print(f"persons fetched: {persons}")
+
+    # Render the 'person_list.html' template with the list of persons
+    return render(
+        request, template_name="person_list.html", context={"persons": persons}
     )

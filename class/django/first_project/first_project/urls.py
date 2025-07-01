@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from app.views import home_page  # Import the home view from the app
+# from app.views import home_page  # Import the home view from the app
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_page),  # Include the app's URLs
+    # path('', home_page),  # Include the view for the home page
+    path('app/', include('app.urls')),  # Include the app's URLs
+    # path("auth/", include("django.contrib.auth.urls")),  # Include auth URLs for login/logout
 ]
