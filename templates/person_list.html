@@ -1,0 +1,16 @@
+{%extends "base.html"%}
+{% block title %} Person list {% endblock %}
+{%block content%}
+<body>
+    {% if not persons %}
+    person not found
+    {%else %}
+    {%for person in persons%}
+    <li>
+    {Name : {{person.name}}, Age : {{person.age}}, Email: {{person.email}}, Address : {{person.address}}}
+    </li>
+    {%endfor%}
+    {%endif%}
+{%endblock%}    
+</body>
+</html>
