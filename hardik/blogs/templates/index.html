@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+<form method="post">
+{% csrf_token %}
+<h1>HOME<a href="{% url 'allblog' %}" style="margin-left: 2%;">All Blogs </a></h1>
+<div style="text-align: center;">
+<b style="font-size: 28px;">ADD NEW BLOG</b><br><br>
+<b>Title</b> <input style="font-size: 24px; width: 1050px;" type="text" name="title"><br>
+<b>Content</b><br>
+<textarea style="font-size: 24px;" name="content" rows="20" cols="100"></textarea><br>
+<b>Author</b> <input style="font-size: 24px; width: 600px;" type="text" name="author"><br>
+<input type="submit" value="SUBMIT" style="font-size: 24px; margin-top: 1%;">
+</div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}All BLOGS{% endblock %}
+
+{% block content %}
+<h1><a href="{% url 'home' %}">HOME</a></h1>
+
+{% for content in contents %}
+<div style="text-align: center; margin-right: 3%; margin-left: 3%;">
+<b>{{content.title}}</b><br>
+{{content.content}}<br>
+{% if content.author != "none" %}
+    <p style="text-align: right;"><b>Author:</b> {{content.author}}<br></p>
+{% endif %}
+------------------------------------------------------------------------
+</div>
+{% endfor%}
+{% endblock %}
