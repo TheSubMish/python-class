@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block title %}Blog Details{% endblock %} {% block
+content %}
+
+<form method="POST">
+  {% csrf_token %}
+  <!-- <input type="hidden" name="_method" value="PATCH"> -->
+  <input type="text" name="title" id="title" value="{{ blog.title }}" />
+  <textarea name="content" id="content">{{ blog.content }}</textarea>
+  <button type="submit">Update</button>
+</form>
+
+<!-- <h1>{{ blog.title }}</h1> -->
+<!-- <p>{{ blog.content }}</p> -->
+
+<p>Created at: {{ blog.created_at }}</p>
+<p>Updated at: {{ blog.updated_at }}</p>
+
+<strong style="background-color: red" id="delete"
+  ><a href="{% url 'blog_delete' blog.pk %}">Delete</a></strong
+>
+
+<!-- 
+<script>
+  delele = document.getElementById("delete");
+
+  delele.addEventListener("click", function() {
+    if (confirm("Are you sure you want to delete this blog?")) {
+      fetch("{% url 'blog_detail_update_delete' blog.pk %}", {
+        method: "DELETE",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        }
+      })
+    }
+  });
+ 
+</script> -->
+
+{% if comments %}
+<h2>Comments</h2>
+<ul>
+  {% for comment in blog.comments.all %}
+  <li>
+    <p>{{ comment.content }}</p>
+    <p>Created at: {{ comment.created_at }}</p>
+    <p>Updated at: {{ comment.updated_at }}</p>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No comments available.</p>
+{% endif %} {% endblock %}
