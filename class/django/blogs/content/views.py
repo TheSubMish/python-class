@@ -31,7 +31,7 @@ def blog_get_post_view(request):
 
 
 def blog_detail_update_delete_view(request, pk):
-    
+
     print("Request Method:", request.method)
 
     try:

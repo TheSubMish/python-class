@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% block title %}Blog Details{% endblock %} {% block
-content %}
+{% extends 'base.html' %} {% block title %}Blog Details{% endblock %} {% block content %}
 
 <form method="POST">
   {% csrf_token %}
@@ -49,4 +48,5 @@ content %}
 </ul>
 {% else %}
 <p>No comments available.</p>
-{% endif %} {% endblock %}
+{% endif %} 
+{% endblock %}
