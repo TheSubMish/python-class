@@ -14,6 +14,7 @@ class BaseModel(models.Model):
 class Blog(BaseModel):
     title = models.CharField(max_length=200)
     content = models.TextField()
+    image = models.ImageField(upload_to='blogs/images/', null=True, blank=True)
 
     def __str__(self):
         return self.title

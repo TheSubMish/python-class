@@ -14,9 +14,20 @@ def blog_get_post_view(request):
     if request.method == "POST":
         title = request.POST.get("title")
         content = request.POST.get("content")
+        # image = request.POST.get("image",None)
+        
+        # print(image)
+        
+        # if image is None:
+        image = request.FILES.get("image")
+            
+        print("Request POST Data:", request.POST)
+        print("Request FILES Data:", request.FILES)
+            
+        print(image)
 
         if title and content:
-            blog = Blog.objects.create(title=title, content=content)
+            blog = Blog.objects.create(title=title, content=content, image=image)
             return redirect("blog_list_create")
         else:
             return redirect("error_page")
@@ -46,10 +57,16 @@ def blog_detail_update_delete_view(request, pk):
         # content = request.query_params.get("content", blog.content)
         title = request.POST.get("title", blog.title)
         content = request.POST.get("content", blog.content)
+        
+        print(request.POST)
+        print(request.FILES)
+        
+        image = request.POST.get("image", blog.image)
 
         if title and content:
             blog.title = title
             blog.content = content
+            blog.image = image
             blog.save()
             return redirect("blog_list_create")
 
