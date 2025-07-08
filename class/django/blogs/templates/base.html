@@ -1,11 +1,25 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} Blog Projects {% endblock %}</title>
+    <title>{% block title %}Blog App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
-    {% block content %} {% endblock %}
+    <header>
+        <h1><a href="{% url 'blog_list_create' %}">Blog Platform</a></h1>
+        <nav>
+            <a href="{% url 'author_create' %}">Add Author</a>
+            <a href="{% url 'blog_create' %}">Add Blog</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <script src="{% static 'js/form_validation.js' %}"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

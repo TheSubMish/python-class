@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Create Author{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Create Author</h2>
+    <form id="authorForm" method="post" novalidate>
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Create Author</button>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setupAuthorFormValidation('authorForm');
+    });
+</script>
+{% endblock %}

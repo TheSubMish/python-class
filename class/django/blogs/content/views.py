@@ -1,8 +1,51 @@
 from django.shortcuts import render, redirect
+from .forms import AuthorForm, BlogForm, CommentForm
 
-from .models import Blog, Comment
+from .models import Blog, Comment, Author
 
 # Create your views here.
+
+
+def author_create_view(request):
+    if request.method == "POST":
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("blog_list_create")
+    else:
+        form = AuthorForm()
+    return render(request, "author_form.html", {"form": form})
+
+
+def blog_create_view(request):
+    if request.method == "POST":
+        form = BlogForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("blog_list_create")
+    else:
+        form = BlogForm()
+
+        author = Author.objects.all()
+    return render(request, "blog_form.html", {"form": form, "author": author})
+
+
+def comment_create_view(request, blog_id):
+    try:
+        blog = Blog.objects.get(pk=blog_id)
+    except Blog.DoesNotExist:
+        return redirect("error_page")
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.blog = blog
+            comment.save()
+            return redirect("blog_detail_update_delete", pk=blog_id)
+    else:
+        form = CommentForm()
+    return render(request, "comment_form.html", {"form": form, "blog": blog})
 
 
 def error_page(request):
@@ -15,15 +58,15 @@ def blog_get_post_view(request):
         title = request.POST.get("title")
         content = request.POST.get("content")
         # image = request.POST.get("image",None)
-        
+
         # print(image)
-        
+
         # if image is None:
         image = request.FILES.get("image")
-            
+
         print("Request POST Data:", request.POST)
         print("Request FILES Data:", request.FILES)
-            
+
         print(image)
 
         if title and content:
@@ -57,10 +100,10 @@ def blog_detail_update_delete_view(request, pk):
         # content = request.query_params.get("content", blog.content)
         title = request.POST.get("title", blog.title)
         content = request.POST.get("content", blog.content)
-        
+
         print(request.POST)
         print(request.FILES)
-        
+
         image = request.POST.get("image", blog.image)
 
         if title and content:

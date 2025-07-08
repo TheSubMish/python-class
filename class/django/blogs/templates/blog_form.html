@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Create Blog{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Create Blog</h2>
+    <form id="blogForm" method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Blog</button>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setupBlogFormValidation('blogForm');
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Add Comment{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Add Comment to "{{ blog.title }}"</h2>
+    <form id="commentForm" method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Comment</button>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setupCommentFormValidation('commentForm');
+    });
+</script>
+{% endblock %}
