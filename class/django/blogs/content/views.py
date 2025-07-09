@@ -40,6 +40,7 @@ def create_user(request):
     form = UserForm()
     return render(request, "registration/user_form.html", {"form": form})
 
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -58,6 +59,15 @@ def login_view(request):
 
 
 def logout_view(request):
+    print(request.user)
+
+    print(
+        "Logging out user:",
+        request.user.username if request.user.is_authenticated else "Anonymous",
+    )
+    print(request.user.first_name)
+    print(request.user.last_name)
+    print(request.user.email)
     # Log out the user
     logout(request)
     return redirect("login_view")
@@ -113,6 +123,7 @@ def comment_create_view(request, blog_id):
 
 def error_page(request):
     return render(request, "error.html", {"message": "An error occurred."})
+
 
 @login_required
 def blog_get_post_view(request):

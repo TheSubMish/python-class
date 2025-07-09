@@ -13,6 +13,11 @@ class UserForm(forms.ModelForm):
             "password": forms.PasswordInput(attrs={"class": "form-control"}),
             "email": forms.EmailInput(attrs={"class": "form-control"}),
         }
+        help_texts = {
+            "username": None,
+            "password": None,
+            "email": None,
+        }
 
 
 class LoginForm(forms.Form):
