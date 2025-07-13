@@ -13,6 +13,8 @@ from .views import (
     create_user,
     login_view,
     logout_view,
+    create_user_api_view,
+    # api_view,
 )
 
 
@@ -27,4 +29,6 @@ urlpatterns = [
     path("delete/<int:pk>/", blog_delete_view, name="blog_delete"),
     path("login/", login_view, name="login_view"),
     path("logout/", logout_view, name="logout_view"),
+    path("create/user/api",create_user_api_view,name="create-user-api")
+    # path("api", api_view, name="api-view"),
 ]

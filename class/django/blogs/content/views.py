@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -204,3 +204,38 @@ def blog_delete_view(request, pk):
 
     blog.delete()
     return redirect("blog_list_create")
+
+
+# def api_view(request):
+#     return JsonResponse({"data": "This is function api view"})
+
+
+from rest_framework.decorators import api_view
+
+
+@api_view()
+def create_user_api_view(request):
+    # if request.method == "POST":
+    #     form = UserForm(request.data)
+    #     if form.is_valid():
+    #         username = form.cleaned_data.get("username")
+    #         password = form.cleaned_data.get("password")
+    #         email = form.cleaned_data.get("email")
+
+    #         # Check if the user already exists
+    #         if User.objects.filter(username=username).exists():
+    #             return JsonResponse(
+    #                 {"error": "Username already exists. Please choose a different one."},
+    #                 status=400,
+    #             )
+
+    #         if username and password and email:
+    #         # Create the user
+    #             user = User.objects.create_user(
+    #                 username=username, password=password, email=email
+    #             )
+    #             return JsonResponse({"message": "User created successfully"}, status=201)
+
+    return JsonResponse({"data": "This is function api view"})
+    
+    
