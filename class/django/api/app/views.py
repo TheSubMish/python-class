@@ -56,3 +56,7 @@ def todo_list(request):
         return Response(
             {"id": todo.pk, "title": todo.title}, status=status.HTTP_201_CREATED
         )
+
+    return Response(
+        {"error": "Method not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED
+    )
