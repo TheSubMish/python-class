@@ -4,7 +4,7 @@ from rest_framework import status
 
 import json
 
-from .models import TodoModel
+from .models import TodoModel, StatusChoice
 from .serializers import TodoSerializer
 
 
@@ -64,7 +64,29 @@ def todo_list(request):
 @api_view(["GET", "POST", "PUT", "DELETE"])
 def serializer_api_example(request):
     if request.method == "GET":
+
+        todo_status = request.query_params.get("status", None)
+        
+        title = request.query_params.get("title", None)
+
+        print("Query parameter 'status':", todo_status)
+
         todos = TodoModel.objects.all()
+
+        if todo_status:
+
+            if todo_status not in StatusChoice.values:
+                return Response(
+                    {"error": "Invalid status choice."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            todos = todos.filter(status=todo_status)
+            
+            
+        if title:
+            todos = todos.filter(title__icontains=title)
+
         serializer = TodoSerializer(todos, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
