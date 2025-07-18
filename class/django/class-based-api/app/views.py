@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 
 
 from .models import TodoModel
-from .serializers import TodoSerializer
+from .serializers import TodoSerializer, TodoReadSeraializer
 from .filters import TodoFilter
 
 
@@ -15,7 +15,10 @@ class TodoListView(APIView):
 
         status_filter = request.query_params.get("status", None)
         if status_filter:
-            return TodoModel.objects.filter(status=status_filter)
+            todos = TodoModel.objects.filter(status__exact=status_filter)
+
+            print(todos.query)
+            return todos
 
         title_filter = request.query_params.get("title", None)
         if title_filter:
@@ -25,6 +28,13 @@ class TodoListView(APIView):
 
     def get(self, request):
         todos = self.get_queryset(request)
+        print(todos.query)
+
+        print(TodoModel.objects.filter(status="pending").query)
+        print(TodoModel.objects.filter(status__exact="pending").query)
+        print(TodoModel.objects.filter(status__iexact="pending").query)
+        print(TodoModel.objects.filter(title__icontains="test").query)
+
         serializer = TodoSerializer(todos, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -102,6 +112,9 @@ class TodoViewSet(ModelViewSet):
     lookup_field = "pk"
     filterset_class = TodoFilter
 
+    def get_serializer_class(self):
+        return super().get_serializer_class()
+
     # def get_queryset(self):
     #     queryset = super().get_queryset()
     #     status_filter = self.request.query_params.get("status", None)
@@ -122,3 +135,120 @@ class TodoViewSet(ModelViewSet):
     #         return TodoModel.objects.get(pk=pk)
     #     except TodoModel.DoesNotExist:
     #         return None
+
+
+# generic class-based views
+from rest_framework import generics
+
+
+class TodoCreateView(generics.CreateAPIView):
+    queryset = TodoModel.objects.all()
+    serializer_class = TodoSerializer
+
+
+class TodoGenericListView(generics.ListAPIView):
+    queryset = TodoModel.objects.all()
+    serializer_class = TodoSerializer
+    filterset_class = TodoFilter
+
+
+class TodoDetailView(generics.RetrieveAPIView):
+    queryset = TodoModel.objects.all()
+    serializer_class = TodoSerializer
+    lookup_field = "pk"
+    filterset_class = TodoFilter
+
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+        if pk is None:
+            return None
+        try:
+            return TodoModel.objects.get(pk=pk)
+        except TodoModel.DoesNotExist:
+            return None
+
+
+class TodoUpdateView(generics.UpdateAPIView):
+    queryset = TodoModel.objects.all()
+    serializer_class = TodoSerializer
+    lookup_field = "pk"
+    filterset_class = TodoFilter
+
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+        if pk is None:
+            return None
+        try:
+            return TodoModel.objects.get(pk=pk)
+        except TodoModel.DoesNotExist:
+            return None
+
+
+class TodoDeleteView(generics.DestroyAPIView):
+    queryset = TodoModel.objects.all()
+    serializer_class = TodoSerializer
+    lookup_field = "pk"
+    filterset_class = TodoFilter
+
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+        if pk is None:
+            return None
+        try:
+            return TodoModel.objects.get(pk=pk)
+        except TodoModel.DoesNotExist:
+            return None
+
+
+class TodoListCreateView(generics.ListCreateAPIView):
+    queryset = TodoModel.objects.all()
+    serializer_class = TodoSerializer
+    filterset_class = TodoFilter
+
+    def get_serializer_class(self):
+
+        if self.request.method == "GET":
+            return TodoReadSeraializer
+
+        return super().get_serializer_class()
+
+    # def get_object(self):
+    #     pk = self.kwargs.get("pk")
+    #     if pk is None:
+    #         return None
+    #     try:
+    #         return TodoModel.objects.get(pk=pk)
+    #     except TodoModel.DoesNotExist:
+    #         return None
+
+
+class TodoRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TodoModel.objects.all()
+    serializer_class = TodoSerializer
+    lookup_field = "pk"
+    filterset_class = TodoFilter
+
+    # def get_object(self):
+    #     pk = self.kwargs.get("pk")
+    #     if pk is None:
+    #         return None
+    #     try:
+    #         return TodoModel.objects.get(pk=pk)
+    #     except TodoModel.DoesNotExist:
+    #         return None
+
+
+class TodoGenericViewSet(generics.GenericAPIView):
+    queryset = TodoModel.objects.all()
+    serializer_class = TodoSerializer
+    lookup_field = "pk"
+    filterset_class = TodoFilter
+
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+        if pk is None:
+            return None
+        try:
+            return TodoModel.objects.get(pk=pk)
+        except TodoModel.DoesNotExist:
+            return None
