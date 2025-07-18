@@ -6,6 +6,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from .models import TodoModel
 from .serializers import TodoSerializer
+from .filters import TodoFilter
 
 
 class TodoListView(APIView):
@@ -95,20 +96,29 @@ class TodoDetailUpdateDeleteView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
-
 class TodoViewSet(ModelViewSet):
     queryset = TodoModel.objects.all()
     serializer_class = TodoSerializer
+    lookup_field = "pk"
+    filterset_class = TodoFilter
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        status_filter = self.request.query_params.get("status", None)
-        if status_filter:
-            queryset = queryset.filter(status=status_filter)
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     status_filter = self.request.query_params.get("status", None)
+    #     if status_filter:
+    #         queryset = queryset.filter(status=status_filter)
 
-        title_filter = self.request.query_params.get("title", None)
-        if title_filter:
-            queryset = queryset.filter(title__icontains=title_filter)
+    #     title_filter = self.request.query_params.get("title", None)
+    #     if title_filter:
+    #         queryset = queryset.filter(title__icontains=title_filter)
 
-        return queryset
+    #     return queryset
+
+    # def get_object(self):
+    #     pk = self.kwargs.get("pk")
+    #     if pk is None:
+    #         return None
+    #     try:
+    #         return TodoModel.objects.get(pk=pk)
+    #     except TodoModel.DoesNotExist:
+    #         return None

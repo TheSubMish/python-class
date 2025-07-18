@@ -12,7 +12,14 @@ urlpatterns = [
     ),
     path(
         "todos/viewset/<int:pk>/",
-        TodoViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"}),
+        TodoViewSet.as_view(
+            {
+                "get": "retrieve",
+                "put": "update",
+                "patch": "partial_update",
+                "delete": "destroy",
+            }
+        ),
         name="todo-detail-viewset",
     ),
 ]
