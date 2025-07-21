@@ -6,6 +6,8 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.utils import timezone
 
+# from django.contrib.auth.models import User
+
 
 from .utils import image_validate
 
@@ -17,7 +19,7 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)
         return user
 
     def create_superuser(self, username, email, first_name, last_name, password=None):
