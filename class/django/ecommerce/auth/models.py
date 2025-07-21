@@ -50,6 +50,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(default=timezone.now)
+    
+    
+    otp = models.CharField(max_length=6, null=True, blank=True)
 
     objects : UserManager = UserManager()
 

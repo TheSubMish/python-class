@@ -97,3 +97,43 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("Old password is incorrect.")
 
         return attrs
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+    def validate_email(self, value):
+        if not User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("No user found with this email address.")
+        return value
+
+    def validate(self, attrs):
+
+        email = attrs.get("email")
+        if not email:
+            raise serializers.ValidationError("Email is required for password reset.")
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError("No user found with this email address.")
+        attrs["user"] = User.objects.get(email=email)
+
+        return attrs
+
+
+class VerifyOtpSerializer(serializers.Serializer):
+    otp = serializers.CharField(required=True, max_length=6)
+    email = serializers.EmailField(required=True)
+
+    def validate(self, attrs):
+        otp = attrs.get("otp")
+        email = attrs.get("email")
+        if not otp or not email:
+            raise serializers.ValidationError("OTP and email are required.")
+
+        user = User.objects.filter(email=email).first()
+        if not user:
+            raise serializers.ValidationError("No user found with this email address.")
+
+        if user.otp != otp:
+            raise serializers.ValidationError("Invalid OTP provided.")
+        attrs["user"] = user
+        return attrs
