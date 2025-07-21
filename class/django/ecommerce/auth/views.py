@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.crypto import get_random_string
@@ -6,6 +6,7 @@ from django.utils.crypto import get_random_string
 
 from .models import User
 from .serializers import (
+    UserSerializer,
     ChangePasswordSerializer,
     LoginSerializer,
     ForgotPasswordSerializer,
@@ -77,3 +78,23 @@ class VerifyOtpView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         return Response({"detail": "OTP verified successfully."})
+
+
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"detail": "Profile updated successfully."})
