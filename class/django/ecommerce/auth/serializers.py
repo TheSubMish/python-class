@@ -137,3 +137,25 @@ class VerifyOtpSerializer(serializers.Serializer):
             raise serializers.ValidationError("Invalid OTP provided.")
         attrs["user"] = user
         return attrs
+
+
+class ChangeForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    new_password = serializers.CharField(required=True, write_only=True)
+
+    def validate_new_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError(
+                "New password must be at least 8 characters long."
+            )
+        return value
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        if not email:
+            raise serializers.ValidationError("Email is required for password reset.")
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError("No user found with this email address.")
+        attrs["user"] = User.objects.get(email=email)
+
+        return attrs

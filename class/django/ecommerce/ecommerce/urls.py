@@ -35,10 +35,12 @@ urlpatterns = [
     ),
     path(
         "api/v1/",
-        include([
-            path("auth/", include("auth.urls")),
-            # Add other app URLs here
-            # path("products/", include("products.urls")),
-        ]),
+        include(
+            [
+                path("auth/", include("auth.urls")),
+                # Add other app URLs here
+                # path("products/", include("products.urls")),
+            ]
+        ),
     ),
 ]

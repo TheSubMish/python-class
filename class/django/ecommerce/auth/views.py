@@ -11,6 +11,7 @@ from .serializers import (
     LoginSerializer,
     ForgotPasswordSerializer,
     VerifyOtpSerializer,
+    ChangeForgotPasswordSerializer,
 )
 from .utils import send_user_mail
 
@@ -98,3 +99,19 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"detail": "Profile updated successfully."})
+
+
+class ChangeForgetPasswordView(generics.GenericAPIView):
+    serializer_class = ChangeForgotPasswordSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        new_password = serializer.validated_data["new_password"]
+
+        user.set_password(new_password)
+        user.otp = None  # Clear OTP after successful password change
+        user.save()
+
+        return Response({"detail": "Password changed successfully."})
