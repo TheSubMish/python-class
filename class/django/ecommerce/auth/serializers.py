@@ -102,10 +102,10 @@ class ChangePasswordSerializer(serializers.Serializer):
 class ForgotPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
-    def validate_email(self, value):
-        if not User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("No user found with this email address.")
-        return value
+    # def validate_email(self, value):
+    #     if not User.objects.filter(email=value).exists():
+    #         raise serializers.ValidationError("No user found with this email address.")
+    #     return value
 
     def validate(self, attrs):
 
