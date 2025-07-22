@@ -32,8 +32,14 @@ class UserManager(BaseUserManager):
         )
         user.is_staff = True
         user.is_superuser = True
+        user.role = RoleType.ADMIN
         user.save(using=self._db)
         return user
+
+
+class RoleType(models.TextChoices):
+    ADMIN = "admin", "Admin"
+    CUSTOMER = "customer", "Customer"
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -50,11 +56,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(default=timezone.now)
-    
-    
+
     otp = models.CharField(max_length=6, null=True, blank=True)
 
-    objects : UserManager = UserManager()
+    role = models.CharField(
+        max_length=20,
+        choices=RoleType.choices,
+        default=RoleType.CUSTOMER,
+    )
+
+    objects: UserManager = UserManager()
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email", "first_name", "last_name"]
