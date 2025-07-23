@@ -10,6 +10,7 @@ class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = []
+    lookup_field = "slug"
 
     def get_permissions(self):
         if self.request.method in ["POST", "PUT", "DELETE", "PATCH"]:
@@ -21,6 +22,7 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = []
+    lookup_field = "slug"
 
     def get_permissions(self):
         if self.request.method in ["POST", "PUT", "DELETE", "PATCH"]:
