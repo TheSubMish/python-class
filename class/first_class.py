@@ -28,7 +28,7 @@ print(var_3.upper())
 
 list_1 = [1, 2, 3, 4, 5]
 
-list_2 = [1, 2, 3, 4, 5, "Hello", "World", list]
+list_2 = [1, 2, 3, 4, 5, "Hello", "World", list_1]
 
 list_1[0] = 10
 
@@ -64,7 +64,7 @@ _set = {1, 2, 3, 4, 5}
 set_1 = {1, 2, 3, 1, 3}
 
 
-# print(set_1)
+print(set_1)
 
 # print(type(set_1))
 # type conversion

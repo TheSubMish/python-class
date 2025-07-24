@@ -30,7 +30,7 @@ class Invoice(BaseModel):
     order = models.ForeignKey(
         "order.Order", related_name="invoices", on_delete=models.CASCADE
     )
-    invoice_number = models.CharField(max_length=50, unique=True)
+    invoice_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
     issue_date = models.DateField()
     due_date = models.DateField()
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -45,6 +45,20 @@ class Invoice(BaseModel):
 
     def __str__(self):
         return f"Invoice {self.invoice_number} for Order {self.order.pk}"
+
+    def save(self, *args, **kwargs):
+
+        last_invoice = Invoice.objects.filter(order=self.order).order_by("-id").first()
+        if last_invoice:
+            self.invoice_number = (
+                f"INV-{int(last_invoice.invoice_number.split('-')[1])+1}"
+                if last_invoice.invoice_number
+                else "INV-1"
+            )
+
+        else:
+            self.invoice_number = "INV-1"
+        super().save(*args, **kwargs)
 
 
 class InvoiceLineItem(BaseModel):
