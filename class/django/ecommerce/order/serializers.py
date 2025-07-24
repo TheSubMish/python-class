@@ -23,7 +23,11 @@ class CustomerDetailsSerializer(serializers.Serializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    order_items = OrderItemSerializer(many=True)
+    cart_items = serializers.ListSerializer(
+        child=serializers.UUIDField(), required=False, allow_empty=True
+    )
+
+    # order_items = OrderItemSerializer(many=True)
     customer_details = CustomerDetailsSerializer()
 
     class Meta:
@@ -31,7 +35,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        order_items_data = validated_data.pop("order_items")
+        order_items_data = validated_data.pop("cart_items")
         customer_details_data = validated_data.pop("customer_details", {})
         order = Order.objects.create(
             **validated_data, customer_details=customer_details_data
@@ -39,10 +43,16 @@ class OrderSerializer(serializers.ModelSerializer):
 
         net_amount, discount = 0, 0
 
-        for item_data in order_items_data:
-            item = OrderItem.objects.create(order=order, **item_data)
-            item.total_price = item.quantity * item.price
-            item.save()
+        items_data = CartItem.objects.filter(id__in=order_items_data)
+
+        for item_data in items_data:
+            item = OrderItem.objects.create(
+                order=order,
+                product=item_data.product,
+                quantity=item_data.quantity,
+                price=item_data.product.price,
+                total_price=item_data.quantity * item_data.product.price,
+            )
 
             net_amount += item.total_price
             discount += (
@@ -53,6 +63,8 @@ class OrderSerializer(serializers.ModelSerializer):
         order.discount = discount  # type: ignore
         order.gross_amount = net_amount + order.tax_amount - discount  # type: ignore
         order.save()
+
+        items_data.delete()
 
         return order
 
