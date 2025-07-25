@@ -22,6 +22,12 @@ class OrderStatus(models.TextChoices):
     PENDING = "Pending", "Pending"
     COMPLETED = "Completed", "Completed"
     CANCELLED = "Cancelled", "Cancelled"
+    
+    
+class PaymentStatus(models.TextChoices):
+    PENDING = "Pending", "Pending"
+    COMPLETED = "Completed", "Completed"
+    FAILED = "Failed", "Failed"
 
 
 class Order(BaseModel):
@@ -39,6 +45,9 @@ class Order(BaseModel):
     )
     customer_details = models.JSONField(
         default=dict, help_text="Store customer details like address, phone, etc."
+    )
+    payment_status = models.CharField(
+        max_length=50, choices=PaymentStatus.choices, default=PaymentStatus.PENDING
     )
 
     def __str__(self):
