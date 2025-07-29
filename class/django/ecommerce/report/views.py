@@ -9,7 +9,7 @@ from order.models import Order
 
 class OrderReportView(generics.GenericAPIView):
 
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def parse_date(self, date_str):
         try:
@@ -69,7 +69,7 @@ class OrderReportView(generics.GenericAPIView):
             created_at__date__lte=parsed_end_date,
         )
 
-        if user.role == "customer":
+        if user.is_authenticated and user.role == "customer":
             orders = orders.filter(user=user)
 
             # list comprehension to create a list of dictionaries
