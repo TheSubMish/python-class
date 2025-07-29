@@ -72,6 +72,7 @@ class OrderReportView(generics.GenericAPIView):
         if user.role == "customer":
             orders = orders.filter(user=user)
 
+            # list comprehension to create a list of dictionaries
             orders_data = [
                 {
                     "id": str(order.pk),
@@ -81,6 +82,16 @@ class OrderReportView(generics.GenericAPIView):
                 for order in orders
             ]
 
+            # Alternatively, if you want to use a loop instead of list comprehension
+            orders_data = []
+            for order in orders:
+                orders_data.append(
+                    {
+                        "id": str(order.pk),
+                        "total_amount": float(order.gross_amount),
+                        "created_at": order.created_at.isoformat(),
+                    }
+                )
         else:
             # Group by user and date, aggregate total_amount and total_orders
             orders = orders.values(
