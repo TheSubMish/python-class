@@ -40,6 +40,7 @@ urlpatterns = [
                 path("auth/", include("auth.urls")),
                 # Add other app URLs here
                 path("products/", include("product.urls")),
+                path("reports/", include("report.urls")),
             ]
         ),
     ),
