@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+<div class="content-form-container">
+<div class="title-container">ADD NEW BLOG</div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">ADD BLOG</button>
+    </form>
+</div>
+{% endblock %}

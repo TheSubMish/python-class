@@ -1,0 +1,24 @@
+{% extends "base.html"%}
+{% block title %}Home Page{% endblock %}
+{% block content%}
+
+
+<h1> HOME <a href="{% url 'sell' %}" style="text-align: left;">Sell Car</a></h1>
+<h1 style="text-align: center;">AVAILABLE CARS</h1>
+{% if cars %}
+    {% for car in cars %}
+      <div style="margin-bottom: 2rem;">
+      <b>CAR {{ forloop.counter }}</b><br>
+      
+      Name: {{ car.name }}<br>
+      Year: {{ car.year }}<br>
+      Price: $ {{ car.price }}
+      </div>
+    {% endfor %}
+{% else %}
+
+    NO CARS TO SHOW
+
+{% endif %}
+
+{% endblock %}

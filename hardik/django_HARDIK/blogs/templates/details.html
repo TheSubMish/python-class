@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}{{pk}}{% endblock %}
+
+{% block content %}
+<div class="blog-container">
+<b style="font-size: 28px;">{{blog.title}}</b><br>
+{% if blog.image %}
+<img src="{{blog.image.url}}" width="500" height="200"><br>
+{% endif %}
+{{blog.content}}<br>
+{% if blog.author %}
+    <p style="text-align: right;"><b>Author:</b> {{blog.author}}</p>
+{% endif %}
+----------------------------------------------------------------<br>
+<a href="{% url 'delete' blog.pk %}" class="action-btn">DELETE</a>
+<a href="{% url 'edit' blog.pk %}" class="action-btn" style="margin-left: 5%;">UPDATE</a>
+</div>
+{% endblock %}

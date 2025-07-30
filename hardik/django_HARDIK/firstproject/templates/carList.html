@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+{% block title %}Car List{% endblock %}
+{% block content%}
+
+<h1>CAR LIST</h1>
+{% if cars %}
+    {% for car in cars %}
+        <div style="margin-bottom: 2rem;">
+            <b>CAR {{ forloop.counter }}</b><br>
+            
+            Name: {{ car.name }}<br>
+            Year: {{ car.year }}<br>
+            Price: $ {{ car.price }}
+        </div>
+    {% endfor %}
+{% else %}
+
+    NO CARS TO SHOW
+
+{% endif %}
+
+
+{% endblock %}

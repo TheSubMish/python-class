@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<a href="{% url 'home' %}">NOTES </a>
+<a href="{% url 'logout' %}">Logout </a>
+
+<form method="post">
+    {% csrf_token %}
+    Title<input type="text" name="title" value="{{data.title}}">
+    Content<textarea name="content">{{data.content}}</textarea>
+    <button type="submit">ADD</button>
+</form>
+{% endblock %}

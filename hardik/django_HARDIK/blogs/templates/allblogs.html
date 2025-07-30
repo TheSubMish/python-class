@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}All BLOGS{% endblock %}
+
+{% block content %}
+{% for content in contents %}
+<div class="blog-container">
+<b><a href="{% url 'detailsPage' content.pk %}" style="font-size: 28px;">{{content.title}}</a></b><br>
+{% if content.image %}
+    <img src="{{content.image.url}}" alt="image" width="500" height="200" ><br>
+{% endif %}
+{{content.content}}<br>
+{% if content.author %}
+    <p style="text-align: right;"><b>Author:</b> {{content.author}}</p>
+{% endif %}
+</div>
+{% endfor %}
+{% endblock %}

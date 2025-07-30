@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+{% block title %}Sell Car{% endblock %}
+{% block content%}
+<form method="post">
+{% csrf_token %}
+<Pre>
+<h1><a href="{% url 'home' %}">HOME</a></h1>
+   <b>ADD CAR INFORMATION</b>
+       Name <input type="text" name="name">
+       Year <input type="number" name="year">
+   Price($) <input type="number" name="price">
+            <input type="submit" value="submit">
+</Pre>
+</form>
+{% if name and year and price %}
+<pre>
+   <b>NEW CAR ADDED FOR SELL</b>
+    Name : {{name}}
+    Year : {{year}}
+   Price : ${{price}}
+</pre>
+{% endif %}
+{% endblock %}

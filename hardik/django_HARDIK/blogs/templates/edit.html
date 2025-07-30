@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}{{pk}}{% endblock %}
+
+{% block content %}
+<div class="content-form-container">
+<div class="title-container">UPDATE BLOG</div>
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<b>Title</b><br> <input id="id_title" name="title" value="{{blog.title}}"><br>
+<b>Content</b><br>
+<textarea name="content" id="id_content">{{blog.content}}</textarea><br>
+{% if blog.image %}
+    <img src="{{blog.image.url}}" alt="image" width="200" height="50" >
+{% endif %}
+<input type="file" name="image" id="id_image"><br>
+<select name="author" id="id_author" required>
+    {% for author in authors %}
+        <option value="{{ author.id }}" {% if author.id == blog.author.id %}selected{% endif %}>
+            {{ author.name }}
+        </option>
+    {% endfor %}
+</select><br>
+
+<button type="submit">UPDATE</button>
+</form>
+</div>
+{% endblock %}
